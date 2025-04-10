@@ -16,7 +16,7 @@ public class UserService {
 
     public UserResponse register(@Valid RegisterRequest request) {
 
-        if(repository.existsByEmail(request, getEmail())){
+        if (repository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already exits");
         }
 
