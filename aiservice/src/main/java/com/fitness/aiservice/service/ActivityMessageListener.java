@@ -13,6 +13,6 @@ public class ActivityMessageListener {
 
     @RabbitListener(queues = "activity.queue")
     public void processActivity(Activity activity){
-        log.info("Received activity for processing: {}", activity.getId());
+        log.info("  : {}", activity.getId());
     }
 }
