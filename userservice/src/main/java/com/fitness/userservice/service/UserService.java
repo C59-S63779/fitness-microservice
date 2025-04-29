@@ -18,13 +18,20 @@ public class UserService {
 
     public UserResponse register(@Valid RegisterRequest request) {
 
+        // *** ADD THIS LOGGING ***
+        log.info("Received registration request DTO: {}", request);
+        // Specifically log the keycloakId from the DTO
+        log.info("Keycloak ID received in request DTO: {}", request.getKeycloakId());
+        // ***********************
+
         if (repository.existsByEmail(request.getEmail())) {
-            User existingUser = repository.findByEmail((request.getEmail()));
+            User existingUser = repository.findByEmail(request.getEmail());
             UserResponse userResponse = new UserResponse();
             userResponse.setId(existingUser.getId());
             userResponse.setKeycloakId(existingUser.getKeycloakId());
             userResponse.setPassword(existingUser.getPassword());
             userResponse.setEmail(existingUser.getEmail());
+            log.warn("User with email {} already exists. Returning existing user.", request.getEmail());
             userResponse.setFirstName(existingUser.getFirstName());
             userResponse.setLastName(existingUser.getLastName());
             userResponse.setCreatedAt(existingUser.getCreatedAt());
@@ -32,13 +39,24 @@ public class UserService {
             return userResponse;
         }
 
+        log.info("Registering new user for email: {}", request.getEmail());
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
+        user.setKeycloakId(request.getKeycloakId());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
 
+        // *** ADD THIS LOGGING ***
+        log.info("User entity before saving: {}", user);
+        // ***********************
+
         User savedUser = repository.save(user);
+
+        // *** ADD THIS LOGGING ***
+        log.info("User entity after saving: {}", savedUser);
+        // ***********************
+
         UserResponse userResponse = new UserResponse();
         userResponse.setKeycloakId(savedUser.getKeycloakId());
         userResponse.setId(savedUser.getId());
