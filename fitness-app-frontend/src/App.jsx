@@ -1,6 +1,6 @@
 /** @format */
 
-// import './App.css'
+import { Button } from "@mui/material";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -10,7 +10,13 @@ import {
 } from "react-router";
 
 function App() {
-  return <Router>button</Router>;
+  return (
+    <Router>
+      <Button variant="contained" color="#dc004e">
+        LOGIN
+      </Button>
+    </Router>
+  );
 }
 
 export default App;
