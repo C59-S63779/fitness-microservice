@@ -24,5 +24,9 @@ api.interceptors.request.use((config) => {
 
 export const getActivities = () => api.get("/activities");
 export const addActivity = (activity) => api.post("/activities", activity);
-export const getActivityDetail = (id) =>
-  api.get(`/recommendations/activity/${id}`);
+
+// Fixed template literal syntax
+export const getActivityDetail = (id) => {
+  console.log(`Fetching activity details for ID: ${id}`);
+  return api.get(`/recommendations/activity/${id}`);
+};
